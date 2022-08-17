@@ -16,9 +16,13 @@ This pipeline will consist of the following steps.
 
 Before doing anything, I checked the quality of the raw data using FastQC by running:
 
-```fastqc data_raw/tara_reads_R1.fastq.gz```
+`fastqc data_raw/tara_reads_R1.fastq.gz`
 
-```fastqc data_raw/tara_reads_R2.fastq.gz```
+`fastqc data_raw/tara_reads_R2.fastq.gz`
 
-The quality of the raw data is already quite good: there aren't any over-represented sequences and there is no adapter content. The per base sequence quality is great for most of the run, except for the last handful of bases ![shown here](tara_reads_R1.png)
+The quality of the raw data is already quite good: there aren't any over-represented sequences and there is no adapter content. The per base sequence quality is great, except for the bases near the end of the run. ![tara_reads_R1](tara_reads_R1.PNG) The quality score in the y axis is a log representation of the base call error probability e, according to: Q = -10log(e). This is sort of inevitable for biophysical/biochemical reasons (e.g. fluorophores bleach over time, nucleotides fail to incorporate, etc). To remedy these issues. I trimmed the datasets using trimmomatic, using the default parameters specified on their [page](http://www.usadellab.org/cms/?page=trimmomatic):
 
+  `java -jar Trimmomatic-0.39/Trimmomatic-0.39/trimmomatic-0.39.jar  PE -threads 8 -trimlog trimmomatic_log/ data_raw/tara_reads_R1.fastq.gz data_raw/tara_reads_R2.fastq.gz -baseout data_trimmed/tara_reads_trimmed_R LEADING:3TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`
+  
+The result of this was a marginally better dataset, with none of the sequences having quality scores below 20 (0.01 error rate).
+![tara_reads_R1_trimmed](tara_reads_R1_trimmed.PNG)
