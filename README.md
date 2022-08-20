@@ -104,4 +104,4 @@ which yielded the following output:
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ```
 
-Looking at the [taxonomic composition](http://ocean-microbiome.embl.de/companion.html) of the Tara oceans project, these lineage names look right.
+See the [taxonomic composition](http://ocean-microbiome.embl.de/companion.html) of the Tara oceans project for reference, which this mock community was drawn from.
