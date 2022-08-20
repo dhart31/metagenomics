@@ -46,6 +46,6 @@ The key measure of "assembly quality" given here is N50, which is equal to the c
 
 Now that I have assembled some contigs, I can try to reconstruct all of the genomes in my community. To do this, I will use [MetaBAT](https://bitbucket.org/berkeleylab/metabat/src/master/), which separates contigs into bins of taxonomic groups. This is achieved by comparing the tetranucleotide frequencies (TNR) and abundance (roughly, how many reads align to the contig) for a pair of contigs. If the TNR and abundance of a pair of contigs are similar, they will be paired together.
 
-To use MetaBAT, I also need a BAM file 
+To use MetaBAT, I also need a sorted BAM file, which describes how all of my reads align to my contigs. To create the BAM file and then sort it, I used Bowtie2 and samtools in tandem, which are both popularly used for this task. 
 
 
