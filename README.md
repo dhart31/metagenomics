@@ -55,21 +55,47 @@ To use MetaBAT, I also need a sorted BAM file, which describes how all of my rea
 Doing these yielded the following output:
 
 ```
-1499996 reads; of these:
-  1499996 (100.00%) were paired; of these:
-    1067699 (71.18%) aligned concordantly 0 times
-    432069 (28.80%) aligned concordantly exactly 1 time
-    228 (0.02%) aligned concordantly >1 times
+1478244 reads; of these:
+  1478244 (100.00%) were paired; of these:
+    1052038 (71.17%) aligned concordantly 0 times
+    425987 (28.82%) aligned concordantly exactly 1 time
+    219 (0.01%) aligned concordantly >1 times
     ----
-    1067699 pairs aligned concordantly 0 times; of these:
-      1047769 (98.13%) aligned discordantly 1 time
+    1052038 pairs aligned concordantly 0 times; of these:
+      1032286 (98.12%) aligned discordantly 1 time
     ----
-    19930 pairs aligned 0 times concordantly or discordantly; of these:
-      39860 mates make up the pairs; of these:
-        14917 (37.42%) aligned 0 times
-        18023 (45.22%) aligned exactly 1 time
-        6920 (17.36%) aligned >1 times
-99.50% overall alignment rate
+    19752 pairs aligned 0 times concordantly or discordantly; of these:
+      39504 mates make up the pairs; of these:
+        14469 (36.63%) aligned 0 times
+        18133 (45.90%) aligned exactly 1 time
+        6902 (17.47%) aligned >1 times
+99.51% overall alignment rate
 ```
-Given that I'm comparing my reads to sequences assembled from the reads, its not surprising that they align 99% percent of the time. The assembler worked. It is interesting to me that only 29% of my pairs aligned concordantly, meaning that their relative orientation and distance range was not what bowtie2 expected (illumina fragment sizes are supposed to be 200 to 500 bases). To me this suggests that there are structural variants of the same genome in this sample.
+Given that I'm comparing my reads to sequences assembled from the reads, its not surprising that they align 99% percent of the time. The assembler worked. It is interesting to me that only 29% of my pairs aligned concordantly, meaning that their relative orientation and distance range was not what bowtie2 expected (illumina fragment sizes are supposed to be 200 to 500 bases). To me this suggests that there are structural variants of genomes contained in this community. 
 
+After sorting the alignments with samtools, I finally ran metabat:
+
+`metabat2 -i assembly/final.contigs.fa -a bam_files/depth.txt -o metabat/bin -v`
+
+This yielded 10 bins total. To analyze these bins to see what's inside them, I implemented the "lineage-specific workflow" created by checkm. 
+
+`checkm lineage_wf -t 4 -x fa -f checkm_output/output.txt metabat/ checkm_output`
+
+which yielded the following output:
+
+```
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Bin Id            Marker lineage            # genomes   # markers   # marker sets    0     1    2   3   4   5+   Completeness   Contamination   Strain heterogeneity  
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  bin.5         k__Bacteria (UID2570)            433         267           178         18   243   6   0   0   0       93.15            0.11               0.00          
+  bin.10        k__Bacteria (UID2982)             88         230           148         13   217   0   0   0   0       93.02            0.00               0.00          
+  bin.8         k__Bacteria (UID2495)            2993        147            91         12   131   4   0   0   0       91.49            3.85               0.00          
+  bin.9    c__Alphaproteobacteria (UID3305)      564         349           230         45   301   3   0   0   0       90.17            0.87               0.00          
+  bin.3    c__Alphaproteobacteria (UID3305)      564         349           230         38   309   2   0   0   0       88.22            0.58               0.00          
+  bin.7    c__Alphaproteobacteria (UID3305)      564         349           230         35   310   4   0   0   0       87.71            1.45               0.00          
+  bin.2      o__Actinomycetales (UID1593)         69         400           198         46   351   3   0   0   0       87.29            1.52              66.67          
+  bin.1     f__Flavobacteriaceae (UID2817)        81         511           283         56   449   6   0   0   0       86.47            1.05              50.00          
+  bin.4    c__Gammaproteobacteria (UID4267)      119         544           284        136   404   4   0   0   0       74.82            1.11              25.00          
+  bin.6          k__Bacteria (UID203)            5449        104            58         97    7    0   0   0   0        7.37            0.00               0.00          
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+```
