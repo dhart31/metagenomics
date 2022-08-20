@@ -77,7 +77,11 @@ After sorting the alignments with samtools, I finally ran metabat:
 
 `metabat2 -i assembly/final.contigs.fa -a bam_files/depth.txt -o metabat/bin -v`
 
-This yielded 10 bins total. To analyze these bins to see what's inside them, I implemented the "lineage-specific workflow" created by checkm. This software places all the bins in a genome tree. Basically it looks up the names of the taxonomic groups corresponding to the bins we created algorithmically. Once this is done, the software checks the marker sets that correspond to that taxonomic group to see how complete or contaminated our genomic data is.  To run this workflow, I ran:
+This yielded 10 bins total. 
+
+## Analysis
+
+Next, to analyze these bins to see what's inside them, I implemented the "lineage-specific workflow" created by checkm. This software places all the bins in a genome tree. Basically it looks up the names of the taxonomic groups corresponding to the bins we created algorithmically. Once this is done, the software checks the marker sets that correspond to that taxonomic group to see how complete or contaminated our genomic data is.  To run this workflow, I ran:
 
 `checkm lineage_wf -t 4 -x fa -f checkm_output/output.txt metabat/ checkm_output`
 
