@@ -48,4 +48,28 @@ Now that I have assembled some contigs, I can try to reconstruct all of the geno
 
 To use MetaBAT, I also need a sorted BAM file, which describes how all of my reads align to my contigs. To create the BAM file and then sort it, I used Bowtie2 and samtools in tandem, which are both popularly used for this task. 
 
+ `bowtie2-build final.contigs.fa final.contigs`
+
+```bowtie2 -x bam_files/final.contigs -1 data_trimmed_tara_reads_trimmed_1P.gz -2 data_trimmed/tara_reads_trimmed_2P.gz samtools view -bS -o bam_files/tara_needs_sorting.bam```
+
+Doing these yielded the following output:
+
+```
+1499996 reads; of these:
+  1499996 (100.00%) were paired; of these:
+    1067699 (71.18%) aligned concordantly 0 times
+    432069 (28.80%) aligned concordantly exactly 1 time
+    228 (0.02%) aligned concordantly >1 times
+    ----
+    1067699 pairs aligned concordantly 0 times; of these:
+      1047769 (98.13%) aligned discordantly 1 time
+    ----
+    19930 pairs aligned 0 times concordantly or discordantly; of these:
+      39860 mates make up the pairs; of these:
+        14917 (37.42%) aligned 0 times
+        18023 (45.22%) aligned exactly 1 time
+        6920 (17.36%) aligned >1 times
+99.50% overall alignment rate
+```
+Given that I'm comparing my reads to sequences assembled from the reads, its not surprising that they align 99% percent of the time. The assembler worked. It is interesting to me that only 29% of my pairs aligned concordantly, meaning that their relative orientation and distance range was not what bowtie2 expected (illumina fragment sizes are supposed to be 200 to 500 bases). To me this suggests that there are structural variants of the same genome in this sample.
 
