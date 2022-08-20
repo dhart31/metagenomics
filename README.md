@@ -26,3 +26,9 @@ The quality of the raw data is already quite good: there aren't any over-represe
   
 The result of this was a marginally better dataset, with none of the sequences having quality scores below 20 (0.01 error rate).
 ![tara_reads_R1_trimmed](tara_reads_R1_trimmed.PNG)
+
+## Assembly
+
+Now that I have cleaned up my reads, the next and most important question is: what do I actually want to learn from this data? Given that this is just a mock "mystery" dataset, I should probably figure out "Who is there?" To do this, I need to assemble all of my reads into contiguous sequences, or contigs. 
+
+For this purpose, I used [megahit](https://academic.oup.com/bioinformatics/article/31/10/1674/177884?login=false), which is a NGS *de novo* assembler. I chose it because it is a competent but memory-efficient tool.
