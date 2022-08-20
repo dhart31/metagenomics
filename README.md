@@ -77,7 +77,7 @@ After sorting the alignments with samtools, I finally ran metabat:
 
 `metabat2 -i assembly/final.contigs.fa -a bam_files/depth.txt -o metabat/bin -v`
 
-This yielded 10 bins total. To analyze these bins to see what's inside them, I implemented the "lineage-specific workflow" created by checkm. This software places all the bins in a genome tree. Basically it looks up the names of the taxonomic groups we created algorithmically. Once this is done, the software checks the marker sets that correspond to that taxonomic group to see how complete or contaminated our genomic data is.  To run this workflow, I ran:
+This yielded 10 bins total. To analyze these bins to see what's inside them, I implemented the "lineage-specific workflow" created by checkm. This software places all the bins in a genome tree. Basically it looks up the names of the taxonomic groups corresponding to the bins we created algorithmically. Once this is done, the software checks the marker sets that correspond to that taxonomic group to see how complete or contaminated our genomic data is.  To run this workflow, I ran:
 
 `checkm lineage_wf -t 4 -x fa -f checkm_output/output.txt metabat/ checkm_output`
 
@@ -99,3 +99,5 @@ which yielded the following output:
   bin.6          k__Bacteria (UID203)            5449        104            58         97    7    0   0   0   0        7.37            0.00               0.00          
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ```
+
+Looking at the [taxonomic composition](http://ocean-microbiome.embl.de/companion.html) of the Tara oceans project, these lineage names look right.
